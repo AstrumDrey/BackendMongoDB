@@ -8,9 +8,11 @@ import routerUpdate from './router/userUpdate'
 import routerDelete from './router/useDelete'
 
 dotenv.config({ path: `${__dirname}/.env.local` });
-const { MONGO_URI = '', PORT } = process.env
+const MONGO_URI = process.env.MONGO_URI
+const PORT = process.env.PORT
 
 const app = express();
+const apiRouter = express.Router();
 app.use(express.json());
 app.use(cors())
 
@@ -50,7 +52,9 @@ const testDEL = routerDelete;
 
 //USING ROUTERS
 
-app.use("/api", testGET)
-app.use("/api", testPOST)
-app.use("/api", testPUT)
-app.use("/api", testDEL)
+apiRouter.use(testGET)
+apiRouter.use(testPOST)
+apiRouter.use(testPUT)
+apiRouter.use(testDEL)
+
+app.use("/api", apiRouter)
