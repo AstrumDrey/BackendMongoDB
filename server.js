@@ -45,8 +45,10 @@ var userPost_1 = require("./router/userPost");
 var userUpdate_1 = require("./router/userUpdate");
 var useDelete_1 = require("./router/useDelete");
 dotenv.config({ path: "".concat(__dirname, "/.env.local") });
-var _a = process.env, _b = _a.MONGO_URI, MONGO_URI = _b === void 0 ? '' : _b, PORT = _a.PORT;
+var MONGO_URI = process.env.MONGO_URI;
+var PORT = process.env.PORT;
 var app = express();
+var apiRouter = express.Router();
 app.use(express.json());
 app.use(cors());
 // Function to create a connection with mongodb
@@ -98,7 +100,8 @@ var testPOST = userPost_1.default;
 var testPUT = userUpdate_1.default;
 var testDEL = useDelete_1.default;
 //USING ROUTERS
-app.use("/api", testGET);
-app.use("/api", testPOST);
-app.use("/api", testPUT);
-app.use("/api", testDEL);
+apiRouter.use(testGET);
+apiRouter.use(testPOST);
+apiRouter.use(testPUT);
+apiRouter.use(testDEL);
+app.use("/api", apiRouter);
